@@ -1,4 +1,4 @@
-module go-jar-encryption
+module github.com/konglingyinxia/go-jar-encryption
 
 go 1.18
 
