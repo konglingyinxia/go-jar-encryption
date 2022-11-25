@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="添加日志组件">
-      <change afterPath="$PROJECT_DIR$/resource/font/simfang.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/font/simhei.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/font/simkai.ttf" afterDir="false" />
+    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="添加动态随即">
+      <change afterPath="$PROJECT_DIR$/layout/layout_base.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/resource_load.go" beforeDir="false" afterPath="$PROJECT_DIR$/resource/resource_load.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +61,7 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/kongling/work/work/project/go/my/go-java-jar-encryption/resource/font",
+    "last_opened_file_path": "/home/kongling/work/work/project/go/source/fyne",
     "project.structure.last.edited": "SDK Location",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
@@ -92,6 +89,15 @@
       <package value="go-jar-encryption" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build layout_base.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-java-jar-encryption" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/konglingyinxia/go-jar-encryption" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/layout/layout_base.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build logging_cfg.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -123,6 +129,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.go build layout_base.go" />
         <item itemvalue="Go Build.go build resource_load.go" />
         <item itemvalue="Go Build.go build logging_cfg.go" />
         <item itemvalue="Go Build.go build go-jar-encryption" />
@@ -138,7 +145,7 @@
       <option name="presentableId" value="Default" />
       <updated>1669262212179</updated>
       <workItem from="1669262213480" duration="4641000" />
-      <workItem from="1669347717363" duration="18922000" />
+      <workItem from="1669347717363" duration="31310000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -168,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669363554690</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="添加动态随即">
+      <created>1669369392784</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669369392784</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,7 +202,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="定义框" />
     <MESSAGE value="添加日志组件" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加日志组件" />
+    <MESSAGE value="添加动态随即" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加动态随即" />
   </component>
   <component name="VgoProject">
     <environment>
