@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="定义框">
-      <change afterPath="$PROJECT_DIR$/logger/logging_cfg.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projectpath/path.go" afterDir="false" />
+    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="添加日志组件">
+      <change afterPath="$PROJECT_DIR$/resource/font/simfang.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/font/simhei.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/font/simkai.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/resource_load.go" beforeDir="false" afterPath="$PROJECT_DIR$/resource/resource_load.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +64,7 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/kongling/work/work/project/go/my/go-java-jar-encryption",
+    "last_opened_file_path": "/home/kongling/work/work/project/go/my/go-java-jar-encryption/resource/font",
     "project.structure.last.edited": "SDK Location",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
@@ -76,7 +76,11 @@
     <selection>jr</selection>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resource/font" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resource/font" />
       <recent name="$PROJECT_DIR$/resource/img" />
     </key>
   </component>
@@ -107,9 +111,19 @@
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="go build resource_load.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="go-java-jar-encryption" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="github.com/konglingyinxia/go-jar-encryption" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/resource/resource_load.go" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.go build resource_load.go" />
         <item itemvalue="Go Build.go build logging_cfg.go" />
         <item itemvalue="Go Build.go build go-jar-encryption" />
       </list>
@@ -124,7 +138,7 @@
       <option name="presentableId" value="Default" />
       <updated>1669262212179</updated>
       <workItem from="1669262213480" duration="4641000" />
-      <workItem from="1669347717363" duration="13692000" />
+      <workItem from="1669347717363" duration="18922000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -147,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669269703730</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="添加日志组件">
+      <created>1669363554690</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669363554690</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +187,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="定义框" />
-    <option name="LAST_COMMIT_MESSAGE" value="定义框" />
+    <MESSAGE value="添加日志组件" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加日志组件" />
   </component>
   <component name="VgoProject">
     <environment>
