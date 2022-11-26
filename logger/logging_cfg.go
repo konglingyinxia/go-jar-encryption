@@ -70,7 +70,7 @@ func init() {
 func getencoder() zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout("2006-01-02 15:04:05.000") // logger 时间格式 例如: 2021-09-11t20:05:54.852+0800
-	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder                      // 输出level序列化为全大写字符串，如 info debug error
+	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder                           // 输出level序列化为全大写字符串，如 info debug error
 
 	if *format == "json" {
 		return zapcore.NewJSONEncoder(encoderConfig) // 以json格式写入

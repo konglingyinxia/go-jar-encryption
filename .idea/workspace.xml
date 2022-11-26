@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="修改加密">
+    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="修改日志打印">
+      <change afterPath="$PROJECT_DIR$/build/cmd/build.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layout/layout_base.go" beforeDir="false" afterPath="$PROJECT_DIR$/layout/layout_base.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tools-test.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/logger/logging_cfg.go" beforeDir="false" afterPath="$PROJECT_DIR$/logger/logging_cfg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zaplogs/jar_encryption.log" beforeDir="false" afterPath="$PROJECT_DIR$/zaplogs/jar_encryption.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +151,7 @@
       <updated>1669262212179</updated>
       <workItem from="1669262213480" duration="4641000" />
       <workItem from="1669347717363" duration="31461000" />
-      <workItem from="1669423192852" duration="27992000" />
+      <workItem from="1669423192852" duration="29437000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -223,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669468848292</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="修改日志打印">
+      <created>1669471831252</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1669471831252</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,7 +254,8 @@
     <MESSAGE value="加密框构造" />
     <MESSAGE value="添加字体" />
     <MESSAGE value="修改加密" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改加密" />
+    <MESSAGE value="修改日志打印" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改日志打印" />
   </component>
   <component name="VgoProject">
     <environment>
