@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="加密框构造">
-      <change afterPath="$PROJECT_DIR$/resource/font/Deng.ttf" afterDir="false" />
+    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="添加字体">
+      <change afterPath="$PROJECT_DIR$/lib/tools-jar.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools-test.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/zaplogs/jar_encryption.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layout/layout_base.go" beforeDir="false" afterPath="$PROJECT_DIR$/layout/layout_base.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +67,8 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/kongling/work/work/project/java/ad-publish-v2-optimized/ad-publish-cloud-admin",
+    "last_opened_file_path": "/home/kongling/work/work/project/go/my/go-java-jar-encryption/lib",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "SDK Location",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
@@ -74,9 +81,12 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
+      <recent name="$PROJECT_DIR$/env/jvm" />
       <recent name="$PROJECT_DIR$/resource/font" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/resource/font" />
       <recent name="$PROJECT_DIR$/resource/img" />
     </key>
@@ -146,7 +156,7 @@
       <updated>1669262212179</updated>
       <workItem from="1669262213480" duration="4641000" />
       <workItem from="1669347717363" duration="31461000" />
-      <workItem from="1669423192852" duration="1397000" />
+      <workItem from="1669423192852" duration="10920000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -190,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669384659006</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="添加字体">
+      <created>1669426011524</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1669426011524</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,7 +229,8 @@
     <MESSAGE value="添加日志组件" />
     <MESSAGE value="添加动态随即" />
     <MESSAGE value="加密框构造" />
-    <option name="LAST_COMMIT_MESSAGE" value="加密框构造" />
+    <MESSAGE value="添加字体" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加字体" />
   </component>
   <component name="VgoProject">
     <environment>
