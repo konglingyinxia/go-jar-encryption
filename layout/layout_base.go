@@ -8,12 +8,15 @@ import (
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/data/validation"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/konglingyinxia/go-jar-encryption/logger"
 	"io"
+	os2 "os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -51,13 +54,17 @@ func Base(win fyne.Window, c fyne.CanvasObject) {
 	win.SetContent(r)
 }
 
-// BaseCreate  创建布局 	//  //定义加密密码
+var logRich *widget.Entry
+
+// BaseFrom  创建布局 	//  //定义加密密码
 //
 //	//定义文件选择框  //定义文件转码输出框
-func BaseCreate(win fyne.Window) {
+func BaseFrom(win fyne.Window) {
 	//自定义密码
 	input := widget.NewEntry()
 	input.Validator = validation.NewRegexp("^[A-Za-z0-9]{6,8}$", "只能包含字母、数字，长度6到8")
+	outFileName := widget.NewEntry()
+	outPathInput := widget.NewEntry()
 	openFileInput := widget.NewEntry()
 	openFile := widget.NewButton("选择", func() {
 		fd := dialog.NewFileOpen(func(read fyne.URIReadCloser, err error) {
@@ -77,7 +84,6 @@ func BaseCreate(win fyne.Window) {
 		fd.SetFilter(storage.NewExtensionFileFilter([]string{".jar"}))
 		fd.Show()
 	})
-	outPathInput := widget.NewEntry()
 	outPath := widget.NewButton("选择", func() {
 		fd := dialog.NewFolderOpen(func(read fyne.ListableURI, err error) {
 			if err != nil {
@@ -91,10 +97,13 @@ func BaseCreate(win fyne.Window) {
 				path := read.Path()
 				logger.Log().Info("加密JAR包输出目录地址：", path)
 				outPathInput.Bind(binding.BindString(&path))
+				fileName := filepath.Base(openFileInput.Text)
+				outFileName.Bind(binding.BindString(&fileName))
 			}
 		}, win)
 		fd.Show()
 	})
+
 	inItem := container.NewHSplit(openFileInput, openFile)
 	inItem.SetOffset(0.85)
 	outItem := container.NewHSplit(outPathInput, outPath)
@@ -105,6 +114,7 @@ func BaseCreate(win fyne.Window) {
 			{Text: "系统类型", Widget: osType, HintText: "选择系统类型"},
 			{Text: "文件目录", Widget: inItem, HintText: "待加密的jar包地址"},
 			{Text: "输出目录", Widget: outItem, HintText: "输出目录"},
+			{Text: "文件名", Widget: outFileName, HintText: "输出文件名"},
 		},
 		OnSubmit: func() {
 			Confirm(win, "确定提交", func(b bool) {
@@ -114,63 +124,133 @@ func BaseCreate(win fyne.Window) {
 					os := osType.Text
 					inputJar := openFileInput.Text
 					outP := outPathInput.Text
-					if pwd == "" || os == "" || outP == "" || inputJar == "" {
+					outFileNameP := outFileName.Text
+					if pwd == "" || os == "" || outP == "" || inputJar == "" || outFileNameP == "" {
 						ShowError(errors.New("输入框都不能为空"), win)
 					} else {
+						s := os2.PathSeparator
+						outP = outP + string(s) + outFileNameP
 						logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密开始...")
-						encodeBuild(pwd, os, inputJar, outP, win)
-						logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密结束...")
+						err := encodeBuild(pwd, os, inputJar, outP, win)
+						if err != nil {
+							logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密失败...")
+							ShowError(err, win)
+							return
+						}
+						logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密成功...")
 					}
 				} else {
-					logger.Log().Info("二次确认您取消了jar包加密")
+					logger.Log().Info("二次确认-您取消了jar包加密")
 				}
 			})
 		},
 		SubmitText: "确认",
 	}
-	form.Resize(fyne.NewSize(200, 200))
-	b := container.NewVBox(form)
+	richText := widget.NewMultiLineEntry()
+	richText.Wrapping = fyne.TextWrapWord
+	logRich = richText
+	label := widget.NewLabel("日志")
+	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 350}), richText))
+	b := container.NewVBox(form, widget.NewSeparator(), vHBox)
 	Base(win, b)
 }
 
-func encodeBuild(pwd string, os string, jarFile string, out string, win fyne.Window) {
+func encodeBuild(pwd string, os string, jarFile string, outFileName string, win fyne.Window) error {
+	outDir := filepath.Dir(outFileName)
 	//执行jar加密
-	err := jarEncode(pwd, jarFile, out, win)
+	err := jarEncode(pwd, jarFile, outFileName)
 	if err != nil {
-		logger.Log().Error("jar包加密失败....")
-		return
+		logger.Log().Error("jar包加密失败....", err)
+		ShowError(errors.New("jar包加密失败"), win)
+		return err
 	}
-
+	xjarGoPath := filepath.Join(outDir, "xjar.go")
+	logger.Log().Info(xjarGoPath, "编译开始.......")
 	//打包成linux
 	if os == linuxOx {
+		buildLinux(xjarGoPath)
 		//打包成win执行包
 	} else if os == winOs {
-
+		buildWin(xjarGoPath)
 	} else if os == allOs {
-
+		buildLinux(xjarGoPath)
+		buildWin(xjarGoPath)
 	} else {
-		ShowError(errors.New("系统类型选择错误"), win)
+		return errors.New("不支持的系统类型")
+	}
+	logger.Log().Info(xjarGoPath, "编译结束......")
+	return nil
+
+}
+
+// GOARCH=amd64  GOOS=linux  go build  xjar.go
+func buildLinux(xjarGoPath string) {
+	log := make(chan string)
+	dir := filepath.Dir(xjarGoPath)
+	os2.Setenv("GOARCH", "amd64")
+	os2.Setenv("GOOS", "linux")
+	cmdXjarGo := exec.Command("go", "build", xjarGoPath)
+	cmdXjarGo.Dir = dir
+	go cmdExec(cmdXjarGo, log)
+	for {
+		str := <-log
+		if str == "&end|end|end&" {
+			break
+		} else {
+			logger.Log().Info(str)
+			txt := logRich.Text + "\n" + str
+			logRich.Bind(binding.BindString(&txt))
+			logRich.Refresh()
+		}
+	}
+}
+
+// `GOARCH=amd64  GOOS=windows  go build  xjar.go`
+func buildWin(xjarGoPath string) {
+	log := make(chan string)
+	dir := filepath.Dir(xjarGoPath)
+	os2.Setenv("GOARCH", "amd64")
+	os2.Setenv("GOOS", "windows")
+	cmdXjarGo := exec.Command("go", "build", xjarGoPath)
+	cmdXjarGo.Dir = dir
+	go cmdExec(cmdXjarGo, log)
+	for {
+		str := <-log
+		if str == "&end|end|end&" {
+			break
+		} else {
+			logger.Log().Info(str)
+			txt := logRich.Text + "\n" + str
+			logRich.Bind(binding.BindString(&txt))
+			logRich.Refresh()
+		}
 	}
 
 }
 
 // 参数顺序为：filePath=? pwd=?  outPath=?
-func jarEncode(pwd string, file string, outPath string, win fyne.Window) error {
-	cmdJava := exec.Command("java", "-jar", "lib/tools-jar.jar", file, pwd, outPath)
+func jarEncode(pwd string, file string, outPath string) error {
+	cmdJava := exec.Command("java", "-jar", "lib/tools-jar.jar", "filePath="+file,
+		"pwd="+pwd, "outPath="+outPath)
 	log := make(chan string)
 	go cmdExec(cmdJava, log)
-	go func() {
-		logger.Log().Info("jar包加密日志开始..........................")
-		for {
-			str := <-log
-			if str == "&end|end|end&" {
-				logger.Log().Info("jar包加密日志结束..........................")
-			} else {
-				logger.Log().Info(str)
-			}
-
+	logger.Log().Info("jar包加密日志开始..........................")
+	for {
+		str := <-log
+		if str == "&end|end|end&" {
+			logger.Log().Info("jar包加密日志结束..........................")
+			break
+		} else {
+			logger.Log().Info(str)
+			txt := logRich.Text + "\n" + str
+			logRich.Bind(binding.BindString(&txt))
+			logRich.Refresh()
 		}
-	}()
+	}
+	//判断文件是否生成
+	if !PathExists(outPath) {
+		return errors.New(outPath + ",加密文件未正常生成")
+	}
 	return nil
 }
 
@@ -187,4 +267,15 @@ func cmdExec(cmd *exec.Cmd, chanel chan string) {
 		}
 		chanel <- line
 	}
+}
+
+func PathExists(path string) bool {
+	_, err := os2.Stat(path)
+	if err == nil {
+		return true
+	}
+	if os2.IsNotExist(err) == false {
+		return true
+	}
+	return false
 }

@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fyne.io/fyne/v2"
-	"io"
-	"log"
-	"os/exec"
-	"strings"
+	"fyne.io/fyne/v2/app"
+	"github.com/konglingyinxia/go-jar-encryption/layout"
+	"github.com/konglingyinxia/go-jar-encryption/logger"
+	"github.com/konglingyinxia/go-jar-encryption/resource"
 )
 
 var win fyne.Window
@@ -17,34 +16,18 @@ func init() {
 	//go环境
 }
 
-//func main() {
-//	a := app.NewWithID("com.mzydz.jarencryption")
-//	win = a.NewWindow("jar包加密")
-//	win.Resize(fyne.NewSize(600, 450))
-//	win.SetIcon(resource.LoadResource(resource.IconPath))
-//
-//	layout.BaseCreate(win)
-//
-//	logger.Log().Info("启动完成.............")
-//	win.SetMaster()
-//	// 窗口居中
-//	win.CenterOnScreen()
-//	win.ShowAndRun()
-//	logger.Log().Info("服务退出.............")
-//}
-
 func main() {
-	cmdJava := exec.Command("java", "-jar", "lib/tools-test.jar")
-	stdout, _ := cmdJava.StdoutPipe()
-	cmdJava.Start()
-	reader := bufio.NewReader(stdout)
-	for {
-		line, err := reader.ReadString('\n')
-		line = strings.TrimSpace(line)
-		if err != nil || io.EOF == err {
-			break
-		}
-		log.Println(line)
-	}
-	cmdJava.Wait()
+	a := app.NewWithID("com.mzydz.jarencryption")
+	win = a.NewWindow("jar包加密")
+	win.Resize(fyne.NewSize(800, 600))
+	win.SetIcon(resource.LoadResource(resource.IconPath))
+
+	layout.BaseFrom(win)
+	win.SetFixedSize(true)
+	logger.Log().Info("启动完成.............")
+	win.SetMaster()
+	// 窗口居中
+	win.CenterOnScreen()
+	win.ShowAndRun()
+	logger.Log().Info("服务退出.............")
 }
