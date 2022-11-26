@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="修改日志打印">
-      <change afterPath="$PROJECT_DIR$/build/cmd/build.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tools-test.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logger/logging_cfg.go" beforeDir="false" afterPath="$PROJECT_DIR$/logger/logging_cfg.go" afterDir="false" />
+    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="修改日志打">
+      <change afterPath="$PROJECT_DIR$/lib/tools-jar/lib/xjar-4.0.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools-jar/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/tools-jar/src/main/java/com/mzydz/jarencrypt/JarEncryptApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +61,7 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/kongling/work/work/project/go/my/go-java-jar-encryption/lib",
+    "last_opened_file_path": "/home/kongling/work/work/project/go/my/go-java-jar-encryption/tools-jar",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.17",
@@ -76,6 +75,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tools-jar" />
       <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/env/jvm" />
       <recent name="$PROJECT_DIR$/resource/font" />
@@ -151,7 +151,7 @@
       <updated>1669262212179</updated>
       <workItem from="1669262213480" duration="4641000" />
       <workItem from="1669347717363" duration="31461000" />
-      <workItem from="1669423192852" duration="29437000" />
+      <workItem from="1669423192852" duration="29755000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -230,7 +230,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669471831252</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="修改日志打">
+      <created>1669473232246</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1669473232246</updated>
+    </task>
+    <task id="LOCAL-00013" summary="修改日志打">
+      <created>1669473325796</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1669473325796</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,7 +269,8 @@
     <MESSAGE value="添加字体" />
     <MESSAGE value="修改加密" />
     <MESSAGE value="修改日志打印" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改日志打印" />
+    <MESSAGE value="修改日志打" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改日志打" />
   </component>
   <component name="VgoProject">
     <environment>
