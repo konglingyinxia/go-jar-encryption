@@ -25,6 +25,9 @@ const (
 func Log() *zap.SugaredLogger {
 	return logger
 }
+func LogFile() string {
+	return filepath.Join(*logPath, *logFilename)
+}
 
 var logger *zap.SugaredLogger // 定义日志打印全局变量
 
@@ -41,6 +44,7 @@ var (
 
 // 初始化 logger
 func init() {
+
 	kingpin.Parse()
 	loglevel := map[string]zapcore.Level{
 		"debug": zapcore.DebugLevel,

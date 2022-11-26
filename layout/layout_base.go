@@ -3,6 +3,7 @@ package layout
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
@@ -18,6 +19,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 func Confirm(win fyne.Window, msg string, callback func(bool)) {
@@ -53,8 +55,6 @@ func Base(win fyne.Window, c fyne.CanvasObject) {
 	r := container.NewBorder(nil, themes, nil, nil, c)
 	win.SetContent(r)
 }
-
-var logRich *widget.Entry
 
 // BaseFrom  创建布局 	//  //定义加密密码
 //
@@ -112,7 +112,7 @@ func BaseFrom(win fyne.Window) {
 		Items: []*widget.FormItem{
 			{Text: "密码", Widget: input, HintText: "输入加密密码"},
 			{Text: "系统类型", Widget: osType, HintText: "选择系统类型"},
-			{Text: "文件目录", Widget: inItem, HintText: "待加密的jar包地址"},
+			{Text: "jar包选择", Widget: inItem, HintText: "待加密的jar包地址"},
 			{Text: "输出目录", Widget: outItem, HintText: "输出目录"},
 			{Text: "文件名", Widget: outFileName, HintText: "输出文件名"},
 		},
@@ -148,7 +148,7 @@ func BaseFrom(win fyne.Window) {
 	}
 	richText := widget.NewMultiLineEntry()
 	richText.Wrapping = fyne.TextWrapWord
-	logRich = richText
+	go ReadLog(richText)
 	label := widget.NewLabel("日志")
 	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 350}), richText))
 	b := container.NewVBox(form, widget.NewSeparator(), vHBox)
@@ -198,9 +198,6 @@ func buildLinux(xjarGoPath string) {
 			break
 		} else {
 			logger.Log().Info(str)
-			txt := logRich.Text + "\n" + str
-			logRich.Bind(binding.BindString(&txt))
-			logRich.Refresh()
 		}
 	}
 }
@@ -220,9 +217,6 @@ func buildWin(xjarGoPath string) {
 			break
 		} else {
 			logger.Log().Info(str)
-			txt := logRich.Text + "\n" + str
-			logRich.Bind(binding.BindString(&txt))
-			logRich.Refresh()
 		}
 	}
 
@@ -242,9 +236,6 @@ func jarEncode(pwd string, file string, outPath string) error {
 			break
 		} else {
 			logger.Log().Info(str)
-			txt := logRich.Text + "\n" + str
-			logRich.Bind(binding.BindString(&txt))
-			logRich.Refresh()
 		}
 	}
 	//判断文件是否生成
@@ -278,4 +269,27 @@ func PathExists(path string) bool {
 		return true
 	}
 	return false
+}
+
+func ReadLog(logRich *widget.Entry) {
+	for {
+		path := logger.LogFile()
+		file, err := os2.Open(path)
+		if err != nil {
+			fmt.Println("打开文件出错：", err)
+		}
+		file.Seek(0, io.SeekEnd)
+		reader := bufio.NewReader(file)
+		for {
+			line, _, err := reader.ReadLine()
+			if err == io.EOF {
+				time.Sleep(time.Second)
+			} else {
+				str := string(line)
+				logRich.Bind(binding.BindString(&str))
+				logRich.Refresh()
+			}
+		}
+	}
+
 }
