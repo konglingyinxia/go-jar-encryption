@@ -42,7 +42,7 @@ func Base(win fyne.Window, c fyne.CanvasObject) {
 func BaseCreate(win fyne.Window) {
 	//自定义密码
 	input := widget.NewEntry()
-	input.Validator = validation.NewRegexp("^[A-Za-z0-9]+$", "只能包含字母、数字")
+	input.Validator = validation.NewRegexp("^[A-Za-z0-9]{6,8}$", "只能包含字母、数字，长度6到8")
 	osType := widget.NewSelectEntry([]string{linuxOx, winOs})
 	openFileInput := widget.NewEntry()
 	openFile := widget.NewButton("选择", func() {
@@ -103,11 +103,7 @@ func BaseCreate(win fyne.Window) {
 				}
 			})
 		},
-		OnCancel: func() {
-			logger.Log().Info("您取消了jar包加密")
-		},
 		SubmitText: "确认",
-		CancelText: "取消",
 	}
 	form.Resize(fyne.NewSize(200, 200))
 	b := container.NewVBox(form)

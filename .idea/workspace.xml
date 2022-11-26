@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="添加动态随即">
-      <change afterPath="$PROJECT_DIR$/layout/layout_base.go" afterDir="false" />
+    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="加密框构造">
+      <change afterPath="$PROJECT_DIR$/resource/font/Deng.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layout/layout_base.go" beforeDir="false" afterPath="$PROJECT_DIR$/layout/layout_base.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +61,7 @@
     "configurable..is.expanded": "false",
     "configurable.GoLibrariesConfigurable.is.expanded": "true",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/kongling/work/work/project/go/source/fyne",
+    "last_opened_file_path": "/home/kongling/work/work/project/java/ad-publish-v2-optimized/ad-publish-cloud-admin",
     "project.structure.last.edited": "SDK Location",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
@@ -145,7 +145,8 @@
       <option name="presentableId" value="Default" />
       <updated>1669262212179</updated>
       <workItem from="1669262213480" duration="4641000" />
-      <workItem from="1669347717363" duration="31310000" />
+      <workItem from="1669347717363" duration="31461000" />
+      <workItem from="1669423192852" duration="1397000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -182,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669369392784</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="加密框构造">
+      <created>1669384659006</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669384659006</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,7 +211,8 @@
     <MESSAGE value="定义框" />
     <MESSAGE value="添加日志组件" />
     <MESSAGE value="添加动态随即" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加动态随即" />
+    <MESSAGE value="加密框构造" />
+    <option name="LAST_COMMIT_MESSAGE" value="加密框构造" />
   </component>
   <component name="VgoProject">
     <environment>
