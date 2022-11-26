@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="修改加密">
+      <change afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layout/layout_base.go" beforeDir="false" afterPath="$PROJECT_DIR$/layout/layout_base.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/tools-jar.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tools-jar.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/zaplogs/jar_encryption.log" beforeDir="false" afterPath="$PROJECT_DIR$/zaplogs/jar_encryption.log" afterDir="false" />
     </list>
@@ -65,10 +64,10 @@
     "go.import.settings.migrated": "true",
     "last_opened_file_path": "/home/kongling/work/work/project/go/my/go-java-jar-encryption/lib",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDK Location",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "go.dep",
+    "settings.editor.selected.configurable": "go.sdk",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -152,7 +151,7 @@
       <updated>1669262212179</updated>
       <workItem from="1669262213480" duration="4641000" />
       <workItem from="1669347717363" duration="31461000" />
-      <workItem from="1669423192852" duration="24524000" />
+      <workItem from="1669423192852" duration="25065000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -210,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669450006409</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="修改加密">
+      <created>1669468301539</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1669468301539</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -12,8 +12,8 @@ var win fyne.Window
 
 func init() {
 	//初始化系统环境变量
-	//java环境
-	//go环境
+	//java环境 jdk1.8_352
+	//go环境 go1.19.3
 }
 
 func main() {
