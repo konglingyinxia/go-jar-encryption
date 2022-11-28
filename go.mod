@@ -17,6 +17,7 @@ require (
 	github.com/fyne-io/gl-js v0.0.0-20220119005834-d2da28d9ccfe // indirect
 	github.com/fyne-io/glfw-js v0.0.0-20220120001248-ee7290d23504 // indirect
 	github.com/fyne-io/image v0.0.0-20220602074514-4956b0afb3d2 // indirect
+	github.com/go-bindata/go-bindata v1.0.0 // indirect
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
@@ -25,6 +26,7 @@ require (
 	github.com/jackmordaunt/icns v0.0.0-20181231085925-4f16af745526 // indirect
 	github.com/josephspurrier/goversioninfo v1.4.0 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
+	github.com/jteeuwen/go-bindata v3.0.7+incompatible // indirect
 	github.com/lucor/goinfo v0.0.0-20210802170112-c078a2b0f08b // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
