@@ -37,8 +37,8 @@ func init() {
 		goBin = "env/go/go_linux/bin/go"
 		//windows
 	} else if sysType == "windows" {
-		javaBin = "env/jvm/jre_win/bin/java"
-		goBin = "env/go/go_win/bin/go"
+		javaBin = "env/jvm/jre_win/bin/java.exe"
+		goBin = "env/go/go_win/bin/go.exe"
 	} else {
 		logger.Log().Error(sysType, "系统不支持")
 	}
