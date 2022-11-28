@@ -20,9 +20,8 @@
     - 2、交叉编译
         - linux
           ```
-             CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o abc-demo-linux main.go
-             CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o adc-demo-mac main.go
-             CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o abc-demo-windows.exe main.go
+             CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o abc-demo-linux main.go
+             CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -o abc-demo-windows.exe main.go
           ```
         - win
            ```

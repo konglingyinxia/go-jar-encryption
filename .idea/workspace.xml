@@ -4,20 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="修改日志打">
-      <change afterPath="$PROJECT_DIR$/Icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/env/go/go_linux/go_1.19.3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/env/go/go_win/go_1.19.3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/env/jvm/jre_linux/jre_1.8.352目录" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/env/jvm/jre_win/jre_1.8.352目录" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="89d90c1a-0cda-4a10-a20c-8feac4d16c20" name="Changes" comment="修改打包">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/cmd/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build/cmd/build.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zaplogs/jar_encryption.log" beforeDir="false" afterPath="$PROJECT_DIR$/zaplogs/jar_encryption.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +155,7 @@
       <workItem from="1669262213480" duration="4641000" />
       <workItem from="1669347717363" duration="31461000" />
       <workItem from="1669423192852" duration="30107000" />
-      <workItem from="1669620160851" duration="7504000" />
+      <workItem from="1669620160851" duration="9141000" />
     </task>
     <task id="LOCAL-00001" summary="定义框">
       <created>1669267804691</created>
@@ -266,7 +255,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669473537995</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="修改打包">
+      <created>1669637657479</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1669637657479</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,7 +288,8 @@
     <MESSAGE value="修改加密" />
     <MESSAGE value="修改日志打印" />
     <MESSAGE value="修改日志打" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改日志打" />
+    <MESSAGE value="修改打包" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改打包" />
   </component>
   <component name="VgoProject">
     <environment>
