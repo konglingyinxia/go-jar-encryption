@@ -40,3 +40,8 @@
              go build -o abc-demo-linux main.go
 
            ```
+- 2、使用 `fyne-cross` 交叉编译打包
+
+# 其他
+
+- fyne-cross设置代理： `fyne-cross  windows -arch=amd64 --env GOPROXY=https://goproxy.cn`

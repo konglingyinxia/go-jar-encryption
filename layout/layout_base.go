@@ -14,13 +14,35 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/konglingyinxia/go-jar-encryption/logger"
+	"github.com/konglingyinxia/go-jar-encryption/projectpath"
 	"io"
 	os2 "os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 )
+
+var (
+	javaBin = ""
+	goBin   = ""
+)
+
+func init() {
+	//初始化系统环境变量
+	sysType := runtime.GOOS
+	if sysType == "linux" {
+		javaBin = "env/jvm/jre_linux/bin/java"
+		goBin = "env/go/go_linux/bin/go"
+		//windows
+	} else if sysType == "windows" {
+		javaBin = "env/jvm/jre_win/bin/java"
+		goBin = "env/go/go_win/bin/go"
+	} else {
+		logger.Log().Error(sysType, "系统不支持")
+	}
+}
 
 func Confirm(win fyne.Window, msg string, callback func(bool)) {
 	cnf := dialog.NewConfirm("再次确认", msg, callback, win)
@@ -208,7 +230,7 @@ func buildWin(xjarGoPath string) {
 	dir := filepath.Dir(xjarGoPath)
 	os2.Setenv("GOARCH", "amd64")
 	os2.Setenv("GOOS", "windows")
-	cmdXjarGo := exec.Command("go", "build", xjarGoPath)
+	cmdXjarGo := exec.Command(projectpath.RootPath()+"/"+goBin, "build", xjarGoPath)
 	cmdXjarGo.Dir = dir
 	go cmdExec(cmdXjarGo, log)
 	for {
@@ -224,7 +246,7 @@ func buildWin(xjarGoPath string) {
 
 // 参数顺序为：filePath=? pwd=?  outPath=?
 func jarEncode(pwd string, file string, outPath string) error {
-	cmdJava := exec.Command("java", "-jar", "lib/tools-jar.jar", "filePath="+file,
+	cmdJava := exec.Command(projectpath.RootPath()+"/"+javaBin, "-jar", "lib/tools-jar.jar", "filePath="+file,
 		"pwd="+pwd, "outPath="+outPath)
 	log := make(chan string)
 	go cmdExec(cmdJava, log)
@@ -285,7 +307,7 @@ func ReadLog(logRich *widget.Entry) {
 			if err == io.EOF {
 				time.Sleep(time.Second)
 			} else {
-				str := string(line)
+				str := logRich.Text + "\n" + string(line)
 				logRich.Bind(binding.BindString(&str))
 				logRich.Refresh()
 			}
