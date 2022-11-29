@@ -108,23 +108,23 @@ func BaseFrom(win fyne.Window) {
 		openFileInput.Bind(binding.BindString(&jarFile))
 	})
 	outPath := widget.NewButton("选择", func() {
-		fd := dialog.NewFolderOpen(func(read fyne.ListableURI, err error) {
-			if err != nil {
-				dialog.ShowError(err, win)
-				return
-			}
-			if read == nil {
-				logger.Log().Info("用户取消输出目录选择")
-			}
-			if read != nil {
-				path := read.Path()
-				logger.Log().Info("加密JAR包输出目录地址：", path)
-				outPathInput.Bind(binding.BindString(&path))
-				fileName := filepath.Base(openFileInput.Text)
-				outFileName.Bind(binding.BindString(&fileName))
-			}
-		}, win)
-		fd.Show()
+		outPath, err := zenity.SelectFile(
+			zenity.Directory(),
+		)
+		if err == zenity.ErrCanceled {
+			logger.Log().Error("用户取消了输出目录选择", err)
+			dialog.ShowError(errors.New("您取消了输出目录选择"), win)
+			return
+		}
+		if err != nil {
+			logger.Log().Error("输出目录选择错误", err)
+			dialog.ShowError(err, win)
+			return
+		}
+		logger.Log().Info("加密JAR包输出目录地址：", outPath)
+		outPathInput.Bind(binding.BindString(&outPath))
+		fileName := filepath.Base(openFileInput.Text)
+		outFileName.Bind(binding.BindString(&fileName))
 	})
 
 	inItem := container.NewHSplit(openFileInput, openFile)
