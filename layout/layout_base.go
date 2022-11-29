@@ -10,11 +10,11 @@ import (
 	"fyne.io/fyne/v2/data/validation"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/konglingyinxia/go-jar-encryption/logger"
 	"github.com/konglingyinxia/go-jar-encryption/projectpath"
+	"github.com/ncruces/zenity"
 	"io"
 	os2 "os"
 	"os/exec"
@@ -89,22 +89,23 @@ func BaseFrom(win fyne.Window) {
 	outPathInput := widget.NewEntry()
 	openFileInput := widget.NewEntry()
 	openFile := widget.NewButton("选择", func() {
-		fd := dialog.NewFileOpen(func(read fyne.URIReadCloser, err error) {
-			if err != nil {
-				dialog.ShowError(err, win)
-				return
-			}
-			if read == nil {
-				logger.Log().Info("用户取消原始jar包选择")
-			}
-			if read != nil {
-				path := read.URI().Path()
-				logger.Log().Info("原始JAR包地址：", path)
-				openFileInput.Bind(binding.BindString(&path))
-			}
-		}, win)
-		fd.SetFilter(storage.NewExtensionFileFilter([]string{".jar"}))
-		fd.Show()
+		jarFile, err := zenity.SelectFile(
+			zenity.FileFilters{
+				{"jar files", []string{"*.jar"}},
+			},
+		)
+		if err == zenity.ErrCanceled {
+			logger.Log().Error("用户取消了jar包选择", err)
+			dialog.ShowError(errors.New("您取消了"), win)
+			return
+		}
+		if err != nil {
+			logger.Log().Error("jar包选择错误", err)
+			dialog.ShowError(err, win)
+			return
+		}
+		logger.Log().Info("原始JAR包地址：", jarFile)
+		openFileInput.Bind(binding.BindString(&jarFile))
 	})
 	outPath := widget.NewButton("选择", func() {
 		fd := dialog.NewFolderOpen(func(read fyne.ListableURI, err error) {
