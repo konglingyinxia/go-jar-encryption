@@ -6,34 +6,9 @@ import (
 	"github.com/konglingyinxia/go-jar-encryption/layout"
 	"github.com/konglingyinxia/go-jar-encryption/logger"
 	"github.com/konglingyinxia/go-jar-encryption/resource"
-	"os"
-	"runtime"
 )
 
 var win fyne.Window
-
-func init() {
-	//初始化系统环境变量
-	sysType := runtime.GOOS
-	if sysType == "linux" {
-		//java环境 jdk1.8_352
-		os.Setenv("JAVA_HOME", "env/jvm/jre_linux")
-		os.Setenv("PATH", "$JAVA_HOME/bin:$PATH")
-		os.Setenv("CLASSPATH", ".:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:")
-		//go环境 go1.19.3
-		os.Setenv("GOROOT", "env/go/go_linux")
-		//windows
-	} else if sysType == "windows" {
-		//java环境 jdk1.8_352
-		os.Setenv("JAVA_HOME", "env/jvm/jre_win")
-		os.Setenv("PATH", "%JAVA_HOME%/bin;%PATH%")
-		os.Setenv("CLASSPATH", ".;%JAVA_HOME%/lib/dt.jar;%JAVA_HOME%/lib/tools.jar;")
-		//go环境 go1.19.3
-		os.Setenv("GOROOT", "env/go/go_win")
-	} else {
-		logger.Log().Error(sysType, "系统不支持")
-	}
-}
 
 func main() {
 	a := app.NewWithID("com.mzydz.jarencryption")
