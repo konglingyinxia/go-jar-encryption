@@ -16,6 +16,7 @@ import (
 	"github.com/konglingyinxia/go-jar-encryption/projectpath"
 	"github.com/ncruces/zenity"
 	"io"
+	"io/ioutil"
 	os2 "os"
 	"os/exec"
 	"path/filepath"
@@ -96,12 +97,12 @@ func BaseFrom(win fyne.Window) {
 		)
 		if err == zenity.ErrCanceled {
 			logger.Log().Error("用户取消了jar包选择", err)
-			dialog.ShowError(errors.New("您取消了"), win)
+			zenity.Info("您取消了", zenity.Title("Information"))
 			return
 		}
 		if err != nil {
 			logger.Log().Error("jar包选择错误", err)
-			dialog.ShowError(err, win)
+			zenity.Info(err.Error())
 			return
 		}
 		logger.Log().Info("原始JAR包地址：", jarFile)
@@ -113,12 +114,18 @@ func BaseFrom(win fyne.Window) {
 		)
 		if err == zenity.ErrCanceled {
 			logger.Log().Error("用户取消了输出目录选择", err)
-			dialog.ShowError(errors.New("您取消了输出目录选择"), win)
+			zenity.Info("您取消了输出目录选择")
 			return
 		}
 		if err != nil {
 			logger.Log().Error("输出目录选择错误", err)
-			dialog.ShowError(err, win)
+			zenity.Error("输出目录选择错误")
+			return
+		}
+		if !DirEmpty(outPath) {
+			logger.Log().Error("请选择空目录", err)
+			//dialog.ShowError(err, win)
+			zenity.Error("请选择空目录")
 			return
 		}
 		logger.Log().Info("加密JAR包输出目录地址：", outPath)
@@ -292,6 +299,16 @@ func PathExists(path string) bool {
 		return true
 	}
 	return false
+}
+
+// DirEmpty 空目录：true ,非空目录：false
+func DirEmpty(dirPath string) bool {
+	dir, _ := ioutil.ReadDir(dirPath)
+	if len(dir) == 0 {
+		return true
+	} else {
+		return false
+	}
 }
 
 func ReadLog(logRich *widget.Entry) {
