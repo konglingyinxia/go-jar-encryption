@@ -193,7 +193,7 @@ func BaseFrom(win fyne.Window) {
 func encodeBuild(pwd string, os string, jarFile string, outFileName string, startAnt string, win fyne.Window) error {
 	outDir := filepath.Dir(outFileName)
 	//执行jar加密
-	err := jarEncode(pwd, jarFile, outFileName, startAnt)
+	err := jarEncode(jarFile, outFileName, pwd, startAnt)
 	if err != nil {
 		logger.Log().Error("jar包加密失败....", err)
 		ShowError(errors.New("jar包加密失败"), win)
@@ -257,7 +257,7 @@ func buildWin(xjarGoPath string) {
 
 }
 
-// 参数顺序为：filePath=? pwd=?  outPath=?
+// 参数顺序为：filePath=?  outPath=?  pwd=?  startAnt=?
 func jarEncode(file string, outPath string, pwd string, startAnt string) error {
 	cmdJava := exec.Command(projectpath.RootPath()+"/"+javaBin, "-jar", "lib/tools-jar.jar",
 		"filePath="+file,

@@ -43,9 +43,9 @@ public class JarEncryptApp {
         }
         String pwd = pwdP[1];
 
-        String[] startAntP = args[2].split("=");
-        if (startAntP.length != 3) {
-            log.error("pwd 参数错误....,参数顺序为：filePath=?  outPath=?  pwd=?  startAnt=? ");
+        String[] startAntP = args[3].split("=");
+        if (startAntP.length != 2) {
+            log.error("startAnt 参数错误....,参数顺序为：filePath=?  outPath=?  pwd=?  startAnt=? ");
             return;
         }
         final String startAnt = startAntP[1];
@@ -53,13 +53,13 @@ public class JarEncryptApp {
             XBoot.encrypt(filePath, outPath, pwd, new XEntryFilter<JarArchiveEntry>() {
                 @Override
                 public boolean filtrate(JarArchiveEntry entry) {
-                    System.out.println(entry.getName());
                     return entry.getName().startsWith(startAnt);
                 }
             });
         } catch (Exception ex) {
-            log.error("java加密jar包失败：", ex);
+            log.error("java进程加密jar包失败：", ex);
         }
         log.info("java进程加密结束.......");
+        System.exit(0);
     }
 }
