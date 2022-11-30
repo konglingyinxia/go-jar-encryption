@@ -28,4 +28,21 @@ func start() {
 
 func main() {
 	start()
+	//xjarGoPath := "/home/kongling/桌面/test/ad_publish_bank_test/out/xjar.go"
+	//dir := filepath.Dir(xjarGoPath)
+	//os2.Setenv("GOARCH", "amd64")
+	//os2.Setenv("GOOS", "linux")
+	/////home/kongling/work/work/project/go/my/go-java-jar-encryption/env/go/go_linux/bin/go
+	//cmdXjarGo := exec.Command("go", "build", xjarGoPath)
+	//cmdXjarGo.Dir = dir
+	//var out bytes.Buffer
+	//var stderr bytes.Buffer
+	//cmdXjarGo.Stdout = &out
+	//cmdXjarGo.Stderr = &stderr
+	//err := cmdXjarGo.Run()
+	//if err != nil {
+	//	log.Println(err.Error(), stderr.String())
+	//} else {
+	//	log.Println(out.String())
+	//}
 }

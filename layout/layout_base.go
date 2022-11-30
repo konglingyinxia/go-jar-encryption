@@ -203,13 +203,13 @@ func encodeBuild(pwd string, os string, jarFile string, outFileName string, star
 	logger.Log().Info(xjarGoPath, "编译开始.......")
 	//打包成linux
 	if os == linuxOx {
-		buildLinux(xjarGoPath)
+		BuildLinux(xjarGoPath)
 		//打包成win执行包
 	} else if os == winOs {
-		buildWin(xjarGoPath)
+		BuildWin(xjarGoPath)
 	} else if os == allOs {
-		buildLinux(xjarGoPath)
-		buildWin(xjarGoPath)
+		BuildLinux(xjarGoPath)
+		BuildWin(xjarGoPath)
 	} else {
 		return errors.New("不支持的系统类型")
 	}
@@ -218,13 +218,13 @@ func encodeBuild(pwd string, os string, jarFile string, outFileName string, star
 
 }
 
-// GOARCH=amd64  GOOS=linux  go build  xjar.go
-func buildLinux(xjarGoPath string) {
+// BuildLinux GOARCH=amd64  GOOS=linux  go build  xjar.go
+func BuildLinux(xjarGoPath string) {
 	log := make(chan string)
 	dir := filepath.Dir(xjarGoPath)
 	os2.Setenv("GOARCH", "amd64")
 	os2.Setenv("GOOS", "linux")
-	cmdXjarGo := exec.Command("go", "build", xjarGoPath)
+	cmdXjarGo := exec.Command(projectpath.RootPath()+"/"+goBin, "build", xjarGoPath)
 	cmdXjarGo.Dir = dir
 	go cmdExec(cmdXjarGo, log)
 	for {
@@ -237,8 +237,8 @@ func buildLinux(xjarGoPath string) {
 	}
 }
 
-// `GOARCH=amd64  GOOS=windows  go build  xjar.go`
-func buildWin(xjarGoPath string) {
+// BuildWin `GOARCH=amd64  GOOS=windows  go build  xjar.go`
+func BuildWin(xjarGoPath string) {
 	log := make(chan string)
 	dir := filepath.Dir(xjarGoPath)
 	os2.Setenv("GOARCH", "amd64")
