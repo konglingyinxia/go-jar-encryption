@@ -87,6 +87,8 @@ func BaseFrom(win fyne.Window) {
 	input := widget.NewEntry()
 	input.Validator = validation.NewRegexp("^[A-Za-z0-9]{6,8}$", "只能包含字母、数字，长度6到8")
 	outFileName := widget.NewEntry()
+	antPath := widget.NewEntry()
+	antPath.SetPlaceHolder("com/mzydz")
 	outPathInput := widget.NewEntry()
 	openFileInput := widget.NewEntry()
 	openFile := widget.NewButton("选择", func() {
@@ -145,6 +147,7 @@ func BaseFrom(win fyne.Window) {
 			{Text: "jar包选择", Widget: inItem, HintText: "待加密的jar包地址"},
 			{Text: "输出目录", Widget: outItem, HintText: "输出目录"},
 			{Text: "文件名", Widget: outFileName, HintText: "输出文件名"},
+			{Text: "classpath", Widget: antPath, HintText: "需要加密的代码目录，例如`com/mzydz`,默认全加密"},
 		},
 		OnSubmit: func() {
 			Confirm(win, "确定提交", func(b bool) {
@@ -155,13 +158,14 @@ func BaseFrom(win fyne.Window) {
 					inputJar := openFileInput.Text
 					outP := outPathInput.Text
 					outFileNameP := outFileName.Text
-					if pwd == "" || os == "" || outP == "" || inputJar == "" || outFileNameP == "" {
+					startAntP := antPath.Text //加密jar包 classpath 下目录 例如：`com/mzydz`
+					if pwd == "" || os == "" || outP == "" || inputJar == "" || outFileNameP == "" || startAntP == "" {
 						ShowError(errors.New("输入框都不能为空"), win)
 					} else {
 						s := os2.PathSeparator
 						outP = outP + string(s) + outFileNameP
 						logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密开始...")
-						err := encodeBuild(pwd, os, inputJar, outP, win)
+						err := encodeBuild(pwd, os, inputJar, outP, startAntP, win)
 						if err != nil {
 							logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密失败...")
 							ShowError(err, win)
@@ -180,15 +184,16 @@ func BaseFrom(win fyne.Window) {
 	richText.Wrapping = fyne.TextWrapWord
 	go ReadLog(richText)
 	label := widget.NewLabel("日志")
-	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 350}), richText))
+	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 300}), richText))
 	b := container.NewVBox(form, widget.NewSeparator(), vHBox)
 	Base(win, b)
 }
 
-func encodeBuild(pwd string, os string, jarFile string, outFileName string, win fyne.Window) error {
+// encodeBuild
+func encodeBuild(pwd string, os string, jarFile string, outFileName string, startAnt string, win fyne.Window) error {
 	outDir := filepath.Dir(outFileName)
 	//执行jar加密
-	err := jarEncode(pwd, jarFile, outFileName)
+	err := jarEncode(pwd, jarFile, outFileName, startAnt)
 	if err != nil {
 		logger.Log().Error("jar包加密失败....", err)
 		ShowError(errors.New("jar包加密失败"), win)
@@ -253,9 +258,12 @@ func buildWin(xjarGoPath string) {
 }
 
 // 参数顺序为：filePath=? pwd=?  outPath=?
-func jarEncode(pwd string, file string, outPath string) error {
-	cmdJava := exec.Command(projectpath.RootPath()+"/"+javaBin, "-jar", "lib/tools-jar.jar", "filePath="+file,
-		"pwd="+pwd, "outPath="+outPath)
+func jarEncode(file string, outPath string, pwd string, startAnt string) error {
+	cmdJava := exec.Command(projectpath.RootPath()+"/"+javaBin, "-jar", "lib/tools-jar.jar",
+		"filePath="+file,
+		"outPath="+outPath,
+		"pwd="+pwd,
+		"startAnt="+startAnt)
 	log := make(chan string)
 	go cmdExec(cmdJava, log)
 	logger.Log().Info("jar包加密日志开始..........................")

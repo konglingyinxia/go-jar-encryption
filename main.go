@@ -13,7 +13,7 @@ var win fyne.Window
 func start() {
 	a := app.NewWithID("com.mzydz.jarencryption")
 	win = a.NewWindow("jar包加密")
-	win.Resize(fyne.NewSize(800, 600))
+	win.Resize(fyne.NewSize(800, 500))
 	win.SetIcon(resource.LoadResource(resource.IconPath))
 
 	layout.BaseFrom(win)
