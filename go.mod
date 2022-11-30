@@ -1,6 +1,6 @@
 module github.com/konglingyinxia/go-jar-encryption
 
-go 1.18
+go 1.19.3
 
 require fyne.io/fyne/v2 v2.2.4
 
