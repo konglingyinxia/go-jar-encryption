@@ -89,3 +89,4 @@ fabric.properties
 # vendor/
 env
 zaplogs/*.log
+fyne-cross
