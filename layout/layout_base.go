@@ -10,12 +10,13 @@ import (
 	"fyne.io/fyne/v2/data/validation"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/konglingyinxia/go-jar-encryption/logger"
 	"github.com/konglingyinxia/go-jar-encryption/projectpath"
+	"github.com/ncruces/zenity"
 	"io"
+	"io/ioutil"
 	os2 "os"
 	"os/exec"
 	"path/filepath"
@@ -86,44 +87,53 @@ func BaseFrom(win fyne.Window) {
 	input := widget.NewEntry()
 	input.Validator = validation.NewRegexp("^[A-Za-z0-9]{6,8}$", "只能包含字母、数字，长度6到8")
 	outFileName := widget.NewEntry()
+	antPath := widget.NewEntry()
+	antPath.SetPlaceHolder("com/mzydz")
 	outPathInput := widget.NewEntry()
 	openFileInput := widget.NewEntry()
 	openFile := widget.NewButton("选择", func() {
-		fd := dialog.NewFileOpen(func(read fyne.URIReadCloser, err error) {
-			if err != nil {
-				dialog.ShowError(err, win)
-				return
-			}
-			if read == nil {
-				logger.Log().Info("用户取消原始jar包选择")
-			}
-			if read != nil {
-				path := read.URI().Path()
-				logger.Log().Info("原始JAR包地址：", path)
-				openFileInput.Bind(binding.BindString(&path))
-			}
-		}, win)
-		fd.SetFilter(storage.NewExtensionFileFilter([]string{".jar"}))
-		fd.Show()
+		jarFile, err := zenity.SelectFile(
+			zenity.FileFilters{
+				{"jar files", []string{"*.jar"}},
+			},
+		)
+		if err == zenity.ErrCanceled {
+			logger.Log().Error("用户取消了jar包选择", err)
+			zenity.Info("您取消了", zenity.Title("Information"))
+			return
+		}
+		if err != nil {
+			logger.Log().Error("jar包选择错误", err)
+			zenity.Info(err.Error())
+			return
+		}
+		logger.Log().Info("原始JAR包地址：", jarFile)
+		openFileInput.Bind(binding.BindString(&jarFile))
 	})
 	outPath := widget.NewButton("选择", func() {
-		fd := dialog.NewFolderOpen(func(read fyne.ListableURI, err error) {
-			if err != nil {
-				dialog.ShowError(err, win)
-				return
-			}
-			if read == nil {
-				logger.Log().Info("用户取消输出目录选择")
-			}
-			if read != nil {
-				path := read.Path()
-				logger.Log().Info("加密JAR包输出目录地址：", path)
-				outPathInput.Bind(binding.BindString(&path))
-				fileName := filepath.Base(openFileInput.Text)
-				outFileName.Bind(binding.BindString(&fileName))
-			}
-		}, win)
-		fd.Show()
+		outPath, err := zenity.SelectFile(
+			zenity.Directory(),
+		)
+		if err == zenity.ErrCanceled {
+			logger.Log().Error("用户取消了输出目录选择", err)
+			zenity.Info("您取消了输出目录选择")
+			return
+		}
+		if err != nil {
+			logger.Log().Error("输出目录选择错误", err)
+			zenity.Error("输出目录选择错误")
+			return
+		}
+		if !DirEmpty(outPath) {
+			logger.Log().Error("请选择空目录", err)
+			//dialog.ShowError(err, win)
+			zenity.Error("请选择空目录")
+			return
+		}
+		logger.Log().Info("加密JAR包输出目录地址：", outPath)
+		outPathInput.Bind(binding.BindString(&outPath))
+		fileName := filepath.Base(openFileInput.Text)
+		outFileName.Bind(binding.BindString(&fileName))
 	})
 
 	inItem := container.NewHSplit(openFileInput, openFile)
@@ -137,6 +147,7 @@ func BaseFrom(win fyne.Window) {
 			{Text: "jar包选择", Widget: inItem, HintText: "待加密的jar包地址"},
 			{Text: "输出目录", Widget: outItem, HintText: "输出目录"},
 			{Text: "文件名", Widget: outFileName, HintText: "输出文件名"},
+			{Text: "classpath", Widget: antPath, HintText: "需要加密的代码目录，例如`com/mzydz`,默认全加密"},
 		},
 		OnSubmit: func() {
 			Confirm(win, "确定提交", func(b bool) {
@@ -147,13 +158,14 @@ func BaseFrom(win fyne.Window) {
 					inputJar := openFileInput.Text
 					outP := outPathInput.Text
 					outFileNameP := outFileName.Text
-					if pwd == "" || os == "" || outP == "" || inputJar == "" || outFileNameP == "" {
+					startAntP := antPath.Text //加密jar包 classpath 下目录 例如：`com/mzydz`
+					if pwd == "" || os == "" || outP == "" || inputJar == "" || outFileNameP == "" || startAntP == "" {
 						ShowError(errors.New("输入框都不能为空"), win)
 					} else {
 						s := os2.PathSeparator
 						outP = outP + string(s) + outFileNameP
 						logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密开始...")
-						err := encodeBuild(pwd, os, inputJar, outP, win)
+						err := encodeBuild(pwd, os, inputJar, outP, startAntP, win)
 						if err != nil {
 							logger.Log().Info("平台：", os, ",原始：", inputJar, "，输出：", outP, ",加密失败...")
 							ShowError(err, win)
@@ -172,15 +184,16 @@ func BaseFrom(win fyne.Window) {
 	richText.Wrapping = fyne.TextWrapWord
 	go ReadLog(richText)
 	label := widget.NewLabel("日志")
-	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 350}), richText))
+	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 300}), richText))
 	b := container.NewVBox(form, widget.NewSeparator(), vHBox)
 	Base(win, b)
 }
 
-func encodeBuild(pwd string, os string, jarFile string, outFileName string, win fyne.Window) error {
+// encodeBuild
+func encodeBuild(pwd string, os string, jarFile string, outFileName string, startAnt string, win fyne.Window) error {
 	outDir := filepath.Dir(outFileName)
 	//执行jar加密
-	err := jarEncode(pwd, jarFile, outFileName)
+	err := jarEncode(jarFile, outFileName, pwd, startAnt)
 	if err != nil {
 		logger.Log().Error("jar包加密失败....", err)
 		ShowError(errors.New("jar包加密失败"), win)
@@ -190,13 +203,13 @@ func encodeBuild(pwd string, os string, jarFile string, outFileName string, win 
 	logger.Log().Info(xjarGoPath, "编译开始.......")
 	//打包成linux
 	if os == linuxOx {
-		buildLinux(xjarGoPath)
+		BuildLinux(xjarGoPath)
 		//打包成win执行包
 	} else if os == winOs {
-		buildWin(xjarGoPath)
+		BuildWin(xjarGoPath)
 	} else if os == allOs {
-		buildLinux(xjarGoPath)
-		buildWin(xjarGoPath)
+		BuildLinux(xjarGoPath)
+		BuildWin(xjarGoPath)
 	} else {
 		return errors.New("不支持的系统类型")
 	}
@@ -205,13 +218,13 @@ func encodeBuild(pwd string, os string, jarFile string, outFileName string, win 
 
 }
 
-// GOARCH=amd64  GOOS=linux  go build  xjar.go
-func buildLinux(xjarGoPath string) {
+// BuildLinux GOARCH=amd64  GOOS=linux  go build  xjar.go
+func BuildLinux(xjarGoPath string) {
 	log := make(chan string)
 	dir := filepath.Dir(xjarGoPath)
 	os2.Setenv("GOARCH", "amd64")
 	os2.Setenv("GOOS", "linux")
-	cmdXjarGo := exec.Command("go", "build", xjarGoPath)
+	cmdXjarGo := exec.Command(projectpath.RootPath()+"/"+goBin, "build", xjarGoPath)
 	cmdXjarGo.Dir = dir
 	go cmdExec(cmdXjarGo, log)
 	for {
@@ -224,8 +237,8 @@ func buildLinux(xjarGoPath string) {
 	}
 }
 
-// `GOARCH=amd64  GOOS=windows  go build  xjar.go`
-func buildWin(xjarGoPath string) {
+// BuildWin `GOARCH=amd64  GOOS=windows  go build  xjar.go`
+func BuildWin(xjarGoPath string) {
 	log := make(chan string)
 	dir := filepath.Dir(xjarGoPath)
 	os2.Setenv("GOARCH", "amd64")
@@ -244,10 +257,13 @@ func buildWin(xjarGoPath string) {
 
 }
 
-// 参数顺序为：filePath=? pwd=?  outPath=?
-func jarEncode(pwd string, file string, outPath string) error {
-	cmdJava := exec.Command(projectpath.RootPath()+"/"+javaBin, "-jar", "lib/tools-jar.jar", "filePath="+file,
-		"pwd="+pwd, "outPath="+outPath)
+// 参数顺序为：filePath=?  outPath=?  pwd=?  startAnt=?
+func jarEncode(file string, outPath string, pwd string, startAnt string) error {
+	cmdJava := exec.Command(projectpath.RootPath()+"/"+javaBin, "-jar", "lib/tools-jar.jar",
+		"filePath="+file,
+		"outPath="+outPath,
+		"pwd="+pwd,
+		"startAnt="+startAnt)
 	log := make(chan string)
 	go cmdExec(cmdJava, log)
 	logger.Log().Info("jar包加密日志开始..........................")
@@ -291,6 +307,16 @@ func PathExists(path string) bool {
 		return true
 	}
 	return false
+}
+
+// DirEmpty 空目录：true ,非空目录：false
+func DirEmpty(dirPath string) bool {
+	dir, _ := ioutil.ReadDir(dirPath)
+	if len(dir) == 0 {
+		return true
+	} else {
+		return false
+	}
 }
 
 func ReadLog(logRich *widget.Entry) {
