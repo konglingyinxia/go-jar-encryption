@@ -1,8 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
+	"fyne.io/fyne/v2/widget"
 	"github.com/konglingyinxia/go-jar-encryption/layout"
 	"github.com/konglingyinxia/go-jar-encryption/logger"
 	"github.com/konglingyinxia/go-jar-encryption/resource"
@@ -27,22 +31,26 @@ func start() {
 }
 
 func main() {
-	start()
-	//xjarGoPath := "/home/kongling/桌面/test/ad_publish_bank_test/out/xjar.go"
-	//dir := filepath.Dir(xjarGoPath)
-	//os2.Setenv("GOARCH", "amd64")
-	//os2.Setenv("GOOS", "linux")
-	/////home/kongling/work/work/project/go/my/go-java-jar-encryption/env/go/go_linux/bin/go
-	//cmdXjarGo := exec.Command("go", "build", xjarGoPath)
-	//cmdXjarGo.Dir = dir
-	//var out bytes.Buffer
-	//var stderr bytes.Buffer
-	//cmdXjarGo.Stdout = &out
-	//cmdXjarGo.Stderr = &stderr
-	//err := cmdXjarGo.Run()
-	//if err != nil {
-	//	log.Println(err.Error(), stderr.String())
-	//} else {
-	//	log.Println(out.String())
-	//}
+	//start()
+	myApp := app.New()
+	myWindow := myApp.NewWindow("List Data")
+
+	data := binding.BindStringList(
+		&[]string{"Item 1", "Item 2", "Item 3"},
+	)
+
+	list := widget.NewListWithData(data,
+		func() fyne.CanvasObject {
+			return widget.NewLabel("template")
+		},
+		func(i binding.DataItem, o fyne.CanvasObject) {
+			o.(*widget.Label).Bind(i.(binding.String))
+		})
+
+	add := widget.NewButton("Append", func() {
+		val := fmt.Sprintf("Item %d", data.Length()+1)
+		data.Append(val)
+	})
+	myWindow.SetContent(container.NewBorder(nil, add, nil, nil, list))
+	myWindow.ShowAndRun()
 }
