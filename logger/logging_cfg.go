@@ -100,6 +100,9 @@ func getLogWriter() (zapcore.WriteSyncer, error) {
 		MaxAge:     logMaxAge,                             // 日志最长保留时间
 		Compress:   logCompress,                           // 是否压缩日志
 	}
+	if exist := isExist(lumberJackLogger.Filename); !exist {
+		_, _ = os.OpenFile(lumberJackLogger.Filename, os.O_APPEND|os.O_CREATE, os.ModePerm)
+	}
 	if logStdout {
 		// 日志同时输出到控制台和日志文件中
 		return zapcore.NewMultiWriteSyncer(zapcore.AddSync(lumberJackLogger), zapcore.AddSync(os.Stdout)), nil
