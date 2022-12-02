@@ -41,7 +41,6 @@
 
            ```
 - 2、使用 `fyne-cross` 交叉编译打包
-
-# 其他
-
-- fyne-cross设置代理： `fyne-cross  windows -arch=amd64 --env GOPROXY=https://goproxy.cn`
+    
+    - 1、打包`windows`: `fyne-cross  windows -arch=amd64  --env GOPROXY=https://goproxy.cn `  
+    - 2、打包`linux`  : `fyne-cross  linux -arch=amd64`
