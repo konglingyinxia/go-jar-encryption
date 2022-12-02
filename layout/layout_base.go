@@ -180,17 +180,11 @@ func BaseFrom(win fyne.Window) {
 		},
 		SubmitText: "确认",
 	}
-	data := binding.BindStringList(&[]string{})
-	logList := widget.NewListWithData(data,
-		func() fyne.CanvasObject {
-			return widget.NewLabel("")
-		},
-		func(i binding.DataItem, o fyne.CanvasObject) {
-			o.(*widget.Label).Bind(i.(binding.String))
-		})
-	go ReadLog(data)
+	richText := widget.NewMultiLineEntry()
+	richText.Wrapping = fyne.TextWrapWord
+	go ReadLog(richText)
 	label := widget.NewLabel("日志")
-	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 300}), logList))
+	vHBox := container.NewVBox(label, widget.NewSeparator(), container.New(layout.NewGridWrapLayout(fyne.Size{Width: 800, Height: 300}), richText))
 	b := container.NewVBox(form, widget.NewSeparator(), vHBox)
 	Base(win, b)
 }
@@ -325,7 +319,7 @@ func DirEmpty(dirPath string) bool {
 	}
 }
 
-func ReadLog(logRich binding.ExternalStringList) {
+func ReadLog(logRich *widget.Entry) {
 	for {
 		path := logger.LogFile()
 		file, err := os2.Open(path)
@@ -339,8 +333,9 @@ func ReadLog(logRich binding.ExternalStringList) {
 			if err == io.EOF {
 				time.Sleep(time.Second)
 			} else {
-				str := string(line) + "\n"
-				logRich.Append(str)
+				str := logRich.Text + "\n" + string(line)
+				logRich.Bind(binding.BindString(&str))
+				logRich.Refresh()
 			}
 		}
 	}
