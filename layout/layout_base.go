@@ -226,6 +226,8 @@ func BuildLinux(xjarGoPath string) {
 	os2.Setenv("GOOS", "linux")
 	cmdXjarGo := exec.Command(projectpath.RootPath()+"/"+goBin, "build", xjarGoPath)
 	cmdXjarGo.Dir = dir
+	logger.Log().Info("go编译命令:", cmdXjarGo.Path, " || ", cmdXjarGo.Args)
+	logger.Log().Info("go编译输出目录：", dir)
 	go cmdExec(cmdXjarGo, log)
 	for {
 		str := <-log
@@ -245,6 +247,8 @@ func BuildWin(xjarGoPath string) {
 	os2.Setenv("GOOS", "windows")
 	cmdXjarGo := exec.Command(projectpath.RootPath()+"/"+goBin, "build", xjarGoPath)
 	cmdXjarGo.Dir = dir
+	logger.Log().Info("go编译命令:", cmdXjarGo.Path, " || ", cmdXjarGo.Args)
+	logger.Log().Info("go编译输出目录：", dir)
 	go cmdExec(cmdXjarGo, log)
 	for {
 		str := <-log
@@ -259,11 +263,12 @@ func BuildWin(xjarGoPath string) {
 
 // 参数顺序为：filePath=?  outPath=?  pwd=?  startAnt=?
 func jarEncode(file string, outPath string, pwd string, startAnt string) error {
-	cmdJava := exec.Command(projectpath.RootPath()+"/"+javaBin, "-jar", "lib/tools-jar.jar",
+	cmdJava := exec.Command(javaBin, "-jar", "lib/tools-jar.jar",
 		"filePath="+file,
 		"outPath="+outPath,
 		"pwd="+pwd,
 		"startAnt="+startAnt)
+	logger.Log().Info("path:", cmdJava.Path, " || ", cmdJava.Args)
 	log := make(chan string)
 	go cmdExec(cmdJava, log)
 	logger.Log().Info("jar包加密日志开始..........................")
